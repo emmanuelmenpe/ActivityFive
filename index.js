@@ -1,23 +1,34 @@
 const conectarDB = require('./config/db');
-/*const express = require('express');
-
+const estadoRoute = require('./routes/estado');
+const express = require('express');
+/*
 const usuarioRoute = require('./routes/usuarios');
 const authRoute = require('./routes/auth');
 const proyectoRoute = require('./routes/proyectos');
 const tareaRoute = require('./routes/tareas');
-const cors = require('cors');
 
-const app = express();
+
+
 */
+const cors = require('cors');
+const app = express();
 conectarDB();
+app.use(express.json({extended: true}));//lo explica en el video 335 del curso
+const PORT = process.env.PORT || 4000;
+app.use(cors());
+app.use(estadoRoute);
+
+app.listen(PORT, () => {
+    console.log(`servidor ejecutandose en puerto ${PORT}`);
+});
 /*
 //habilitar express.json
-app.use(express.json({extended: true}));//lo explica en el video 335 del curso
 
-const PORT = process.env.PORT || 4000;
+
+
 
 //habilitar cors
-app.use(cors());
+
 
 //definir rutas
 app.use('/api/usuarios', usuarioRoute);
