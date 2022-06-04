@@ -4,6 +4,7 @@
   "description": "ultima actividad del parcial 1, entrega 7 junio",
   "main": "index.js",
   "scripts": {
+    "start":"nodemon ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/emmanuelmenpe/ActivityFive#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "mongoose": "^6.3.5"
   },
