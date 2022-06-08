@@ -2,7 +2,9 @@
 const conectarDB = require('./config/db');
 const express = require('express');
 const cors = require('cors');
+const estadoRoute = require('./routes/estado');
 const municipioRoute = require('./routes/municipio');
+
 
 //crear instancia de express
 const app = express();
@@ -16,6 +18,7 @@ app.use(express.json({extended: true}));
 app.use(cors());
 
 //agregar rutas al servidor
+app.use(estadoRoute);
 app.use(municipioRoute);
 
 //crear puesto de escucha
