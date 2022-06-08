@@ -3,6 +3,8 @@ const conectarDB = require('./config/db');
 const express = require('express');
 const cors = require('cors');
 const clienteRoute = require('./routes/cliente');
+const estadoRoute = require('./routes/estado');
+const municipioRoute = require('./routes/municipio');
 
 //crear instancia de express
 const app = express();
@@ -17,6 +19,8 @@ app.use(cors());
 
 //agregar rutas al servidor
 app.use(clienteRoute);
+app.use(estadoRoute);
+app.use(municipioRoute);
 
 //crear puesto de escucha
 const PORT = process.env.PORT || 4000;
