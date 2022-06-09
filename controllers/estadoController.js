@@ -1,4 +1,5 @@
 const EstadoModel = require('../models/estado');
+const MunicipioModel = require('../models/municipio');
 
 exports.crearEstado = async(req, res) => {
     try {
@@ -14,7 +15,11 @@ exports.crearEstado = async(req, res) => {
 
 exports.obtenerEstados = async(req, res) => {
     try {
-        const estado = await EstadoModel.find();
+        //poppulate: para obtener los datos de la relacion
+        //donde municipios es el nombre del campo de la coleccion estado
+        //y municipios hace referencia a la coleccion Municipio(ver modelo estado)
+        //donde solo se quiere el nombre del municipio
+        const estado = await EstadoModel.find().populate('municipios',{nombre:1, _id:0});
         res.json({estado}); 
     } catch (error) {
         console.log(error);
@@ -61,6 +66,7 @@ exports.eliminarEstado = async(req, res) => {
 
         //eliminar
         await EstadoModel.findOneAndRemove({_id:req.params.id});
+        await MunicipioModel.deleteMany({estado: req.params.id});
 
         res.status(200).json({msg: 'Estado eliminado'});
     } catch (error) {

@@ -1,8 +1,10 @@
 const ClienteModel = require('../models/cliente');
+const LocalidadModel = require('../models/localidad');
 
 exports.crearCliente = async(req, res) => {
     try {
         const cliente = new ClienteModel(req.body);
+        await LocalidadModel.findByIdAndUpdate({_id:cliente.localidad.toString()}, {$push: {habitantes: cliente._id}});
         cliente.save();
         res.status(200).json({msg: "Cliente registrado exitosamente"});
     } catch (error) {
@@ -14,7 +16,9 @@ exports.crearCliente = async(req, res) => {
 
 exports.obtenerClientes = async(req, res) => {
     try {
-        const clientes = await ClienteModel.find();
+        const clientes = await ClienteModel.find().populate('localidad',{nombre:1, _id:0});
+        //const clientes = await ClienteModel.find().populate('localidad',{nombre:1, _id:0});
+        //clientes.direccion.localidad = await LocalidadModel.findById({_id:clientes.direccion.localidad});
         res.json({clientes}); 
     } catch (error) {
         console.log(error);

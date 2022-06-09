@@ -6,10 +6,14 @@ const MunicipioSchema = mongoose.Schema({
         require: true,
         trim: true
     },
+    localidades:[{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Localidad'
+    }],
     estado:{
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Estado',
         require: true,
-        trim: true
     },
     creado:{
         type: Date,

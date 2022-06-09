@@ -6,6 +6,10 @@ const EstadoSchema = mongoose.Schema({
         require: true,
         trim: true
     },
+    municipios:[{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Municipio'
+    }],
     creado:{
         type: Date,
         default: Date.now()
