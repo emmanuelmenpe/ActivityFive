@@ -15,10 +15,14 @@ const ClienteSchema = mongoose.Schema({
         type: String,
         require: true,
         trim: true
+    }, 
+    localidad:{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref:'Localidad', 
+        require: true,
+        trim: true
     },
     direccion:{
-        /*localidad:{type: mongoose.Schema.Types.ObjectId,ref: 'Localidad, require: true, trim: true},*/
-        localidad:{type: String, require: true, trim: true},
         calle:{type: String, require: true, trim: true},
         numeroExterior:{type: String, require: true, trim: true},
         numeroInterior:{type: String, trim: true},

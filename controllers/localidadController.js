@@ -1,20 +1,27 @@
-const ClienteModel = require('../models/localidad');
+const LocalidadModel = require('../models/localidad');
+const MunicipioModel = require('../models/municipio');
 
 exports.crearLocalidad = async(req, res) => {
     try {
         const localidad = new LocalidadModel(req.body);
+        await MunicipioModel.findByIdAndUpdate({_id:localidad.municipio.toString()}, {$push: {localidades: localidad._id}});
         localidad.save();
-        res.status(200).json({msg: "localidad registrada exitosamente"});
+        res.status(200).json({msg: "Localidad registrada exitosamente"});
     } catch (error) {
         console.log(error);
-        res.status(500).json({msg: 'Hubo un error el registrar la localidad'})
+        res.status(500).json({msg: 'Hubo un error el registrar localidad'})
     }
 
 }
 
 exports.obtenerLocalidades = async(req, res) => {
     try {
-        const localidades = await LocalidadModel.find();
+        //poppulate: para obtener los datos de la relacion
+        //donde municipios es el nombre del campo de la coleccion estado
+        //y municipios hace referencia a la coleccion Municipio(ver modelo estado)
+        //donde solo se quiere el nombre del municipio
+        const localidades = await LocalidadModel.find().populate('municipio',{nombre:1, _id:0}).populate('habitantes',{nombre:1, _id:0});
+        //localidades.estado = await EstadoModel.findById({_id:localidades.municipio.estado});
         res.json({localidades}); 
     } catch (error) {
         console.log(error);
@@ -23,20 +30,21 @@ exports.obtenerLocalidades = async(req, res) => {
 }
 
 exports.actualizarLocalidad = async(req, res) => {
-    const {nombre} = req.body;
+    const {nombre, municipio} = req.body;
     const localidadEditada = {};
 
     if (req.body) {
         localidadEditada.nombre= nombre;
+        localidadEditada.municipio= municipio;
     }
 
     try {
         //obtener la localidad por id
         let localidad = await LocalidadModel.findById(req.params.id);
 
-        //comprobar si existe la localidad
+        //comprobar si existe localidad
         if (!localidad) {
-            return res.status(404).json({msg: 'localidad no registrada'});
+            return res.status(404).json({msg: 'Localidad no encontrada'});
         }
 
         //guardar cambios
@@ -54,15 +62,15 @@ exports.eliminarLocalidad = async(req, res) => {
         //obtener la localidad por id
         let localidad = await LocalidadModel.findById(req.params.id);
 
-        //comprabar si existe localidad
+        //compravar si existe localidad
         if (!localidad) {
-            return res.status(404).json({msg: 'localidad no encontrada'});
+            return res.status(404).json({msg: 'Localidad no encontrada'});
         }
 
         //eliminar
         await LocalidadModel.findOneAndRemove({_id:req.params.id});
 
-        res.status(200).json({msg: 'Localidad Eliminada'});
+        res.status(200).json({msg: 'Localidad eliminada'});
     } catch (error) {
         console.log(error);
         return res.status(500).json(`error: ${error.message}`);

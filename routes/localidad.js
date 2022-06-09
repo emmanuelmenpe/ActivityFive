@@ -1,24 +1,24 @@
 const express = require('express');
-const estadoController = require('../controllers/localidadController');
+const localidadController = require('../controllers/localidadController');
 
 
 const router = express.Router();
 
 //crear
 router.post('/api/localidades', 
-localidadController.crearLocalidades
+localidadController.crearLocalidad
 );
 
-//obtener localidad
+//obtener localidades
 router.get('/api/localidades', 
 localidadController.obtenerLocalidades
 );
 
 router.put('/api/localidades/:id', 
-localidadController.actualizarLocalidades
+localidadController.actualizarLocalidad
 );
 
-router.delete('/api/localidad/:id', 
+router.delete('/api/localidades/:id', 
 localidadController.eliminarLocalidad
 );
 
