@@ -1,31 +1,33 @@
+//importaciones
 const conectarDB = require('./config/db');
-/*const express = require('express');
-
-const usuarioRoute = require('./routes/usuarios');
-const authRoute = require('./routes/auth');
-const proyectoRoute = require('./routes/proyectos');
-const tareaRoute = require('./routes/tareas');
+const express = require('express');
 const cors = require('cors');
+const clienteRoute = require('./routes/cliente');
+const estadoRoute = require('./routes/estado');
+const municipioRoute = require('./routes/municipios');
+const localidadRoute = require('./routes/localidad');
 
+//crear instancia de express
 const app = express();
-*/
+
 conectarDB();
-/*
-//habilitar express.json
-app.use(express.json({extended: true}));//lo explica en el video 335 del curso
 
-const PORT = process.env.PORT || 4000;
+// Analiza las solicitudes JSON entrantes y coloca los datos analizados en req.body.
+app.use(express.json({extended: true}));
 
-//habilitar cors
+//permite acceder a la API desde cualquier origen(puestos distintos)
 app.use(cors());
 
-//definir rutas
-app.use('/api/usuarios', usuarioRoute);
-app.use('/api/auth', authRoute);
-app.use('/api/proyectos', proyectoRoute);
-app.use('/api/tareas', tareaRoute);
+//agregar rutas al servidor
+app.use(clienteRoute);
+app.use(estadoRoute);
+app.use(municipioRoute);
+app.use(localidadRoute);
 
-//iniciar app
+//crear puesto de escucha
+const PORT = process.env.PORT || 4000;
+
+//habilitar puerto de escucha
 app.listen(PORT, () => {
     console.log(`servidor ejecutandose en puerto ${PORT}`);
-});*/
+});
